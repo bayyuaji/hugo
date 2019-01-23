@@ -18,6 +18,7 @@ before_script:
 - curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.3.0/heptio-authenticator-aws_0.3.0_linux_amd64
 - chmod +x aws-iam-authenticator
 - sudo mv aws-iam-authenticator /usr/local/bin
+- cp kubeconfig /kube
 - docker pull smesch/hugo
 - docker pull smesch/html-proofer
 - docker pull smesch/kubectl
@@ -34,4 +35,4 @@ after_script:
 - docker push ${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:latest
 - sed -i -e 's|KUBE_CA_CERT|'"${KUBE_CA_CERT}"'|g' kubeconfig
 - sed -i -e 's|KUBE_ENDPOINT|'"${KUBE_ENDPOINT}"'|g' kubeconfig
-- docker run -v ${TRAVIS_BUILD_DIR}:/kube smesch/kubectl kubectl --kubeconfig kubeconfig set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:$TRAVIS_BUILD_ID
+- docker run -v ${TRAVIS_BUILD_DIR}:/kube smesch/kubectl kubectl --kubeconfig /kube/kubeconfig set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:$TRAVIS_BUILD_ID
