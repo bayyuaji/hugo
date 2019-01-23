@@ -23,7 +23,6 @@ before_script:
 - cp kubeconfig kube/
 - docker pull smesch/hugo
 - docker pull smesch/html-proofer
-- docker pull smesch/kubectl
 - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
 
 script:
@@ -38,4 +37,3 @@ after_script:
 - sed -i -e 's|KUBE_CA_CERT|'"${KUBE_CA_CERT}"'|g' kubeconfig
 - sed -i -e 's|KUBE_ENDPOINT|'"${KUBE_ENDPOINT}"'|g' kubeconfig
 - kubectl --kubeconfig kubeconfig set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:$TRAVIS_BUILD_ID
-#- docker run -v ${TRAVIS_BUILD_DIR}:/kube smesch/kubectl kubectl --kubeconfig /kube/kubeconfig set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:$TRAVIS_BUILD_ID
