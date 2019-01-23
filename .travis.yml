@@ -34,4 +34,4 @@ after_script:
 - docker push ${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:latest
 - sed -i -e 's|KUBE_CA_CERT|'"${KUBE_CA_CERT}"'|g' kubeconfig
 - sed -i -e 's|KUBE_ENDPOINT|'"${KUBE_ENDPOINT}"'|g' kubeconfig
-- docker run -v ${TRAVIS_BUILD_DIR}:/kube smesch/kubectl kubectl --kubeconfig /kube/kubeconfig set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:$TRAVIS_BUILD_ID
+- docker run -v ${TRAVIS_BUILD_DIR}:/kube smesch/kubectl kubectl --kubeconfig kubeconfig set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:$TRAVIS_BUILD_ID
